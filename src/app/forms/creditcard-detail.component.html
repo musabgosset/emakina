@@ -1,0 +1,37 @@
+<form [formGroup]="creditcardForm" novalidate (ngSubmit)="onSubmit()">
+    <pre>{{ creditcardForm.value |json}}</pre>
+    <pre>{{ creditcardForm.status |json}}</pre> {{creditcardForm.get('number').errors |json}}
+    <div class='form-group'>
+        <label>Credit card number:</label>
+        <div class='input-group'>
+            <input type="text" class='form-control' formControlName="number">
+
+            <div class='input-group-addon' id='type'>
+                <span>{{ checkCreditCard() }}</span>
+                <span *ngIf="!creditcardForm.get('number').errors && creditcardForm.get('number').dirty">
+                        <i class="fa fa-check emakina-check" aria-hidden="true"></i>
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Name on card:</label>
+        <input type="text" class='form-control' formControlName="name">
+    </div>
+    <div class='clearfix'>
+        <div class="form-group form-group-mini">
+            <label>Expiracy date:</label>
+            <input type='text' class='form-control' placeholder="dd/YYYY">
+        </div>
+        <div class="form-group form-group-mini">
+            <label>CCV:</label>
+            <input type='text' class='form-control' formControlName="ccv">
+        </div>
+    </div>
+    <br>
+    <p> 
+        <button class='btn btn-default' [disabled]="creditcardForm.pristine" (click)="reset()" type="reset">Reset</button>
+        <button class='btn btn-primary' [disabled]="creditcardForm.pristine || creditcardForm.invalid" type="submit">Submit</button>
+    </p>
+</form>
