@@ -6,6 +6,9 @@ import { Creditcard } from '../models/credit-card'
 import { ValidateCreditcard } from '../validators/creditcard.validator';
 import { LuhnValidator } from '../validators/luhn.validator';
 import { LuhnService } from '../services/luhn.service';
+import { CreditcardService } from '../services/creditcard.service';
+
+
 
 @Component({
     selector: 'creditcard-detail',
@@ -13,16 +16,17 @@ import { LuhnService } from '../services/luhn.service';
 })
 
 export class CreditcardDetailComponent implements OnInit {
+    submitted:boolean;
     creditcard: Creditcard;
-
     creditcardForm: FormGroup;
 
-    constructor(private luhnValidator: LuhnValidator, private fb: FormBuilder) {
+    constructor(private luhnValidator: LuhnValidator, private fb: FormBuilder, private creditCardService: CreditcardService) {
+        this.submitted = false;
         this.creditcard = new Creditcard();
         this.createForm();
     }
- 
-    createForm() : void {
+
+    createForm(): void {
         this.creditcardForm = this.fb.group({
             number: [this.creditcard.number, [Validators.required, ValidateCreditcard, this.luhnValidator.ValidateLuhn.bind(this.luhnValidator)]],
             name: [this.creditcard.name, Validators.required],
@@ -31,24 +35,12 @@ export class CreditcardDetailComponent implements OnInit {
         });
     }
 
-    checkCreditCard() : string {
-        console.log(this.creditcardForm.value.number);
-        if (!this.creditcardForm.value.number || this.creditcardForm.value.number == '')
-            return undefined;
 
-        if (this.creditcardForm.value.number.startsWith('4')) {
-            return 'Visa';
-        }
-        else if (this.creditcardForm.value.number.startsWith('5')) {
-            return 'Mastercard';
-        }
-        else if (this.creditcardForm.value.number.startsWith('34') || this.creditcardForm.value.number.startsWith('37')) {
-            return 'American Express';
-        }
-        else return '?';    
+    checkCreditCard(): string {
+        return this.creditCardService.checkCreditCard(this.creditcardForm.value.number);
     }
 
-    prepareSaveCreditcard() : Creditcard {
+    prepareSaveCreditcard(): Creditcard {
         const formModel = this.creditcardForm.value;
 
         const saveCreditcard = {
@@ -64,8 +56,11 @@ export class CreditcardDetailComponent implements OnInit {
 
     onSubmit() {
         const creditcard = this.prepareSaveCreditcard();
-
-        console.log("Credit card : ", creditcard);
+        this.creditCardService.saveCreditcard(creditcard).subscribe((result) => {
+            this.submitted = true;
+        }, error => { 
+            alert("Something went wrong. Please retry.");
+        });
     }
 
     reset() {

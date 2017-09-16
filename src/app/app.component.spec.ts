@@ -3,9 +3,16 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LuhnService } from './services/luhn.service';
+import { CreditcardService } from './services/creditcard.service';
 import { LuhnValidator } from './validators/luhn.validator';
 
 import { CreditcardDetailComponent } from './forms/creditcard-detail.component';
+
+
+import { HttpModule } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import { AppSettings } from './app.settings';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -14,10 +21,12 @@ describe('AppComponent', () => {
         CreditcardDetailComponent
       ],
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpModule
       ],
       providers: [
         LuhnService,
+        CreditcardService,
         LuhnValidator
       ]
     }).compileComponents();

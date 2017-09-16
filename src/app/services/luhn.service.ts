@@ -4,14 +4,17 @@ import { Injectable } from '@angular/core';
 export class LuhnService {
     constructor() { }
 
+    // Réalisé via
+    // https://fr.wikipedia.org/wiki/Formule_de_Luhn
+
     checkLuhn(creditcard: string): boolean {
         if (/[^0-9-\s]+/.test(creditcard)) {
             return false;
         }
 
-        let even: boolean = false;
         let check: number = 0;
         let digit: number = 0;
+        let even: boolean = false;
 
         creditcard = creditcard.replace(/\D/g, "");
 

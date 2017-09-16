@@ -10,6 +10,8 @@ import { LuhnService } from './services/luhn.service';
 import { LuhnValidator } from './validators/luhn.validator';
 
 
+import { HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +19,8 @@ import { LuhnValidator } from './validators/luhn.validator';
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule
   ],
   providers: [ CreditcardService, LuhnService, LuhnValidator ],
   bootstrap: [ AppComponent ] 

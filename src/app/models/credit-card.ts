@@ -11,6 +11,6 @@ export class Creditcard {
 
     number:string = '';
     name:string = '';
-    expiracyDate:Date = new Date();
+    expiracyDate:Date;
     ccv:string = '';
   }
