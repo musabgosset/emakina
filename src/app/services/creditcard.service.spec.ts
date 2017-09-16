@@ -52,9 +52,15 @@ describe('CreditcardService', () => {
         }));
         it('Invalid card number should return ?', inject([CreditcardService], (service: CreditcardService) => {
             // Act
-            const result = service.checkCreditCard("987874747447");
+            const result = service.checkCreditCard("9878747");
             // Assert
             expect(result).toBe('?');
+        }));
+        it('Invalid card number with the good length should return Invalid', inject([CreditcardService], (service: CreditcardService) => {
+            // Act
+            const result = service.checkCreditCard("0556138571772548");
+            // Assert
+            expect(result).toBe('Invalid');
         }));
     });
 

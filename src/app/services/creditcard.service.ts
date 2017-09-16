@@ -14,8 +14,9 @@ export class CreditcardService {
     public static VISA: string = "Visa";
     public static MASTERCARD: string = "Mastercard";
     public static AMERICAN_EXPRESS: string = "American Express";
+    public static INVALID: string = "Invalid";
+    public static UNKNOWN: string = "?";
 
-    delayMs = 5000;
 
     constructor(private http: Http) { }
 
@@ -25,10 +26,10 @@ export class CreditcardService {
     }
 
     checkCreditCard(number: string): string {
-        if (!number || number == '')
+        if (!number) {
             return undefined;
-
-        if (number.startsWith('4')) {
+        }
+        else if (number.startsWith('4')) {
             return CreditcardService.VISA;
         }
         else if (number.startsWith('5')) {
@@ -37,18 +38,16 @@ export class CreditcardService {
         else if (number.startsWith('34') || number.startsWith('37')) {
             return CreditcardService.AMERICAN_EXPRESS;
         }
+        else if (number.length >= 13 && number.length <= 16) {
+            return CreditcardService.INVALID;
+        }
         else {
-            return '?';
+            return CreditcardService.UNKNOWN;
         }
     }
 
     private extractData(res: Response) {
         let body = res.json();
         return body.data || {};
-    }
-
-    private handleError(error: Response | any) {
-        console.error(error.message || error);
-        return Observable.throw(error.message || error);
     }
 }
