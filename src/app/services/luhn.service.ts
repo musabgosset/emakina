@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 export class LuhnService {
     constructor() { }
 
-    // Réalisé via l'agorithme : 
+    // Algorithm from : 
     // https://fr.wikipedia.org/wiki/Formule_de_Luhn
 
     checkLuhn(creditcard: string): boolean {
-        // Si le numéro de carte comporte un caractère autre qu'un chiffre, un espace ou un tiret 
+        // If the card number contains anything else than numbers, dashes or a spaces
         if (/[^0-9-\s]+/.test(creditcard)) {
             return false;
         }
@@ -17,11 +17,10 @@ export class LuhnService {
         let digit: number = 0;
         let even: boolean = false;
 
-        // supprime tout ce qui n'est pas un chiffre
+        // Delete everything that is not a number
         creditcard = creditcard.replace(/\D/g, "");
 
         for (let position = creditcard.length - 1; position >= 0; position--) {
-            // base de 10 utilisée pour le parsing
             digit = parseInt(creditcard.charAt(position), 10);
             
             if (even && (digit *= 2) > 9) {
