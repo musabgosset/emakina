@@ -11,6 +11,12 @@ import { LuhnValidator } from './validators/luhn.validator';
 
 
 import { HttpModule } from '@angular/http';
+import { enableProdMode } from '@angular/core';
+
+// Enable production mode unless running locally
+if (!/localhost/.test(document.location.host)) {
+  enableProdMode();
+}
 
 @NgModule({
   declarations: [
